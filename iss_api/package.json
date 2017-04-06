@@ -1,0 +1,15 @@
+{
+  "name": "iss_api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "daniel irimia",
+  "scripts": {
+    "start": "nodemon --watch app app/index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "nodemon": "^1.11.0"
+  }
+}
