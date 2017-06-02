@@ -1,15 +1,28 @@
 {
   "name": "iss_api",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "daniel irimia",
+  "description": "conference management tool",
+  "main": "app/index.js",
   "scripts": {
-    "start": "nodemon --watch app app/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --watch app app/index.js",
+    "doc": "apidoc -i app/ -o doc"
   },
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
+  "homepage": "",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "express": "^4.15.2",
-    "nodemon": "^1.11.0"
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-jwt": "^5.1.0",
+    "jsonwebtoken": "^7.1.9",
+    "mongodb": "^2.2.10",
+    "mongoose": "^4.6.1",
+    "mongoose-timestamp": "^0.6.0",
+    "save": "^2.3.0",
+    "shortid": "^2.2.8"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2"
   }
 }
