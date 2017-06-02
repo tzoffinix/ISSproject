@@ -19,6 +19,8 @@ router.delete( "/users/delete", authorize, validateToken, usersController.delete
 
 router.post( "/proposals/addProposal", setUser, proposalsController.addProposal );
 
+router.get( "/users/:userId",  usersController.getUser );
+
 router.get( "/test", function( req, res ) {
     res.json( { success: true } );
 } );

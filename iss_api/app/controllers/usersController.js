@@ -16,7 +16,7 @@ exports.register = ( req, res ) => {
             } else {
                 res.success( extractObject(
                     savedUser,
-                    [ "id", "name", "age", "email", "username", "password", "webpage", "affiliation"] ) );
+                    [ "id", "name", "age", "email", "username", "password", "webpage", "affiliation" ] ) );
             }
         } );
     }
@@ -42,11 +42,11 @@ exports.login = ( req, res ) => {
                 expiresIn: 1440
             } );
             user = {
-                _id: user._id,
-            }
+                _id: user._id
+            };
             res.json( {
                 success: true,
-                token: token,
+                token,
                 user
             } );
         }
@@ -75,4 +75,22 @@ exports.delete = ( req, res ) => {
 
     user.remove( );
     res.success( );
+};
+
+exports.getUser = function( req, res ) {
+    const _id = req.param( "userId" );
+    if ( !_id ) {
+        return res.preconditionFailed( "missing_user_id" );
+    }
+
+    User.findOne(
+        { _id },
+        function( err, user ) {
+            if ( err ) {
+                return res.serverError( );
+            }
+            req.user = user;
+            res.success( { user } );
+        }
+    );
 };

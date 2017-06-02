@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import RaisedButton from "material-ui/RaisedButton";
 import Menu from "../components/Menu";
 import MyAppBar from "../components/AppBar";
+import UserDashboard from "../pages/userDashboard";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -24,6 +25,7 @@ export default class Home extends Component {
     render() {
         return ( <div>
                     <MyAppBar logOut={this.logOut} logged={ this.state.user !== undefined }/>
+                    {this.state.user !== undefined ? <UserDashboard/> : <div>Please log in.</div>}
                  </div>
         );
     }
