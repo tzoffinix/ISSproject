@@ -10,7 +10,6 @@ const setUser       = require( "../middlewares/setUser" );
 const express = require( "express" );
 const router  = express.Router( );
 
-
 router.post( "/users/registration", setUser, usersController.register );
 
 router.post( "/users/login", usersController.login );
@@ -34,6 +33,7 @@ router.post( "/conferences/create", setUser, conferenceController.addConference 
 router.get( "/test", function( req, res ) {
     res.json( { success: true } );
 } );
+router.get( "/files/:fileName", function ( req, res ) { return express.static( `uploads/${ res.params.fileName }` ) } );
 
 router.use( errorsController.notFound );
 

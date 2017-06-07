@@ -1,9 +1,11 @@
 const express         = require( "express" );
 const bodyParser      = require( "body-parser" );
-
+const fs = require( "fs" );
 const config          = require( "./config" );
 const customResponses = require( "./middlewares/customResponses" );
-
+const crypto = require( "crypto" );
+const path = require( "path" );
+const mime = require( "mime" );
 const app    = express( );
 const port   = process.env.PORT || config.port;
 const ENV    = process.env.NODE_ENV || config.env;
@@ -24,7 +26,35 @@ require( "./models/conference" );
 const proposalsController = require( "./controllers/proposalsController" );
 app.use( customResponses );
 
-app.post( "/papers", multer( { dest: "uploads/" } ).single( "file" ), proposalsController.addFile );
+const storage = multer.diskStorage( {
+    destination: "./uploads/",
+    filename( req, file, cb ) {
+        crypto.pseudoRandomBytes( 16, function( err, raw ) {
+            if ( err ) {
+                return cb( err );
+            }
+
+            cb( null, raw.toString( "hex" ) + path.extname( file.originalname ) );
+        } );
+    }
+} );
+
+const upload = multer( { storage } );
+
+app.post( "/papers", upload.single( "file" ), proposalsController.addFile );
+
+app.get( "/files/:fileName", function( req, res ) {
+    const file = `${ __dirname }/../uploads/${ req.params.fileName }`;
+
+    const filename = path.basename( file );
+    const mimetype = mime.lookup( file );
+
+    res.setHeader( "Content-disposition", `attachment; filename=${  filename }` );
+    res.setHeader( "Content-type", mimetype );
+
+    const filestream = fs.createReadStream( file );
+    filestream.pipe( res );
+} );
 
 app.use( bodyParser.json( ) );
 
