@@ -1,22 +1,38 @@
 const mongoose      = require( "mongoose" );
-const extractObject = require( "../utilities/functions" ).extractObject;
 const Proposal      = mongoose.model( "Proposal" );
-
-const addProposal = ( user, proposal ) => {
-    user.proposals.push( proposal );
-};
 
 exports.addProposal = ( req, res ) => {
     const user = req.user;
     const proposal = new Proposal( req.body.proposal );
-    addProposal( user, proposal );
-    user.save( function( err, savedUser ) {
+    proposal.userId = user.id;
+    proposal.id = proposal._id;
+    proposal.save( function( err ) {
         if ( err ) {
             res.validationError( err );
         } else {
-            res.success( extractObject(
-                    savedUser,
-                    [ "proposals" ] ) );
+            const userId = user.id;
+            Proposal.find( { userId }, ( error, prop ) => {
+                if ( error ) {
+                    res.serverError( error );
+                } else {
+                    res.success( prop );
+                }
+            } );
+        }
+    } );
+};
+
+exports.addFile = ( req, res ) =>{
+    console.log( req.file ); //form files
+    return res.end( req.file.filename );
+};
+
+exports.getProposals = ( req, res ) => {
+    Proposal.find( { }, ( error, prop ) => {
+        if ( error ) {
+            res.serverError( error );
+        } else {
+            res.success( prop );
         }
     } );
 };

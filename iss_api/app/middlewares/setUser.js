@@ -2,13 +2,13 @@ const mongoose = require( "mongoose" );
 const User     = mongoose.model( "User" );
 
 module.exports = function( req, res, next ) {
-    const username = req.body.username;
-    if ( !username ) {
+    const id = req.body.userId;
+    if ( !id ) {
         return res.preconditionFailed( "missing_username" );
     }
 
     User.findOne(
-        { username },
+        { id },
         function( err, user ) {
             if ( err ) {
                 return res.serverError( );

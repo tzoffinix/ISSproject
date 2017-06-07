@@ -1,6 +1,7 @@
 const mongoose      = require( "mongoose" );
 const extractObject = require( "../utilities/functions" ).extractObject;
 const User          = mongoose.model( "User" );
+const userType      = mongoose.model( "UserType" );
 const jwt           = require( "jsonwebtoken" );
 const SECRET        = "superSuperSecret";
 
@@ -23,39 +24,51 @@ exports.register = ( req, res ) => {
 };
 
 exports.login = ( req, res ) => {
-    let user  = req.user;
-    if ( !req.body.password ) {
-        res.status( 400 ).send( "password required" );
-        return;
+    const username = req.body.username;
+    if ( !username ) {
+        return res.preconditionFailed( "missing_username" );
     }
 
-    const password = req.body.password;
+    User.findOne(
+        { username },
+        function( err, user ) {
+            if ( err ) {
+                return res.serverError( );
+            }
+            if ( !req.body.password ) {
+                res.status( 400 ).send( "password required" );
+                return;
+            }
 
-    if ( user ) {
-        if ( user.password !== password ) {
-            res.json( {
-                success: false,
-                message: "Authentication failed. Wrong password."
-            } );
-        } else {
-            const token = jwt.sign( user, SECRET, {
-                expiresIn: 1440
-            } );
-            user = {
-                _id: user._id
-            };
-            res.json( {
-                success: true,
-                token,
-                user
-            } );
+            const password = req.body.password;
+
+            if ( user ) {
+                if ( user.password !== password ) {
+                    res.json( {
+                        success: false,
+                        message: "Authentication failed. Wrong password."
+                    } );
+                } else {
+                    const token = jwt.sign( user, SECRET, {
+                        expiresIn: 1440
+                    } );
+                    user = {
+                        id: user.id
+                    };
+                    res.json( {
+                        success: true,
+                        token,
+                        user
+                    } );
+                }
+            } else {
+                res.json( {
+                    success: false,
+                    message: "Authentication failed. User not found."
+                } );
+            }
         }
-    } else {
-        res.json( {
-            success: false,
-            message: "Authentication failed. User not found."
-        } );
-    }
+    );
 };
 
 exports.edit = ( req, res ) => {
@@ -78,19 +91,51 @@ exports.delete = ( req, res ) => {
 };
 
 exports.getUser = function( req, res ) {
-    const _id = req.param( "userId" );
-    if ( !_id ) {
+    const id = req.params.userId;
+    if ( !id ) {
         return res.preconditionFailed( "missing_user_id" );
     }
 
     User.findOne(
-        { _id },
+        { id },
         function( err, user ) {
             if ( err ) {
                 return res.serverError( );
             }
             req.user = user;
             res.success( { user } );
+        }
+    );
+};
+
+exports.bid = ( req, res )=> {
+    const id = req.params.userId;
+    User.findOne(
+        { id },
+        function( err, user ) {
+            if ( err ) {
+                return res.serverError( );
+            }
+            user.bidProposals.push( req.body.proposalId );
+            user.save( ( error, savedUser )=>{
+                res.success( savedUser );
+            } );
+        }
+    );
+};
+
+exports.assign = ( req, res )=> {
+    const id = req.params.userId;
+    User.findOne(
+        { id },
+        function( err, user ) {
+            if ( err ) {
+                return res.serverError( );
+            }
+            user.assignedProposals.push( req.body.proposalId );
+            user.save( ( error, savedUser )=>{
+                res.success( savedUser );
+            } );
         }
     );
 };

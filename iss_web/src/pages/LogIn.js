@@ -70,7 +70,7 @@ export default class LogIn extends Component {
                 d.setTime( d.getTime() + ( 3600 * 60 * 1000 ) );
 
                 cookies.set( "iss_user", data.token, { path: "/", expires: d } );
-                cookies.set( "iss_userId", data.user._id, { path: "/", expires: d } );
+                cookies.set( "iss_userId", data.user.id, { path: "/", expires: d } );
                 this.props.history.push( "/" );
             }
         } );

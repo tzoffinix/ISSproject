@@ -9,13 +9,28 @@ import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
 import SvgIcon from "material-ui/SvgIcon";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
+import Avatar from "material-ui/Avatar";
 const cookies = new Cookies();
 
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 const HomeIcon = ( props ) => (
   <SvgIcon {...props}>
     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
   </SvgIcon>
 );
+
+import {
+  blue300,
+  indigo900,
+  orange200,
+  deepOrange300,
+  pink400,
+  purple500
+} from "material-ui/styles/colors";
+
+const style = { margin: 5 };
 
 class Login extends Component {
     static muiName = "FlatButton";
@@ -74,12 +89,19 @@ class MyAppBar extends Component {
     };
 
     render() {
+        const name = "" || this.props.name;
         return (
       <div>
         <AppBar
-          title="Conference Management System"
-          iconElementLeft={<IconButton> <HomeIcon/></IconButton>}
-          iconElementRight={this.state.logged ? <Logged logOut={this.props.logOut}/> : <Login />}
+          title ={ this.state.logged ? `Welcome, ${ name.capitalize() }` : "Conference Management System" }
+          iconElementLeft={ this.state.logged ? <Avatar
+          size={35}
+          backgroundColor={purple500}
+          style={style}
+        >
+          {name.toUpperCase()[ 0 ]}
+        </Avatar> : <IconButton> <HomeIcon/></IconButton>}
+          iconElementRight={ this.state.logged ? <Logged logOut={this.props.logOut}/> : <Login />}
         />
       </div>
         );
