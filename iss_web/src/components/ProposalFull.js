@@ -7,6 +7,8 @@ import MenuItem from "material-ui/MenuItem";
 import fileDownload from "react-file-download";
 import axios from "axios";
 import { List, ListItem } from "material-ui/List";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 export default class ProposalFull extends Component {
     constructor() {
         super();
@@ -102,24 +104,7 @@ export default class ProposalFull extends Component {
             </CardText>
             </Card>
              : <div/>}
-            <Card>
-            <CardHeader
-            title="Comments"
-            actAsExpander={true}
-            showExpandableButton={true}
-            />
-            <CardText expandable={true}>
-                <List>
-                <ListItem primaryText={`${ this.props.proposal.strongAccept  } Strong accept`}  />
-                <ListItem primaryText={`${ this.props.proposal.accept  } Accept`} />
-                <ListItem primaryText={`${ this.props.proposal.weakAccept  } Weak Accept`} />
-                <ListItem primaryText={`${ this.props.proposal.weakReject  } Weak Reject`} />
-                <ListItem primaryText={`${ this.props.proposal.reject  } reject`} />
-                <ListItem primaryText={`${ this.props.proposal.strongReject  } Strong reject`} />
-                <ListItem primaryText={`${ this.props.proposal.borderlinePaper  } Borderline paper`} />
-            </List>
-            </CardText>
-            </Card>
+
             </CardActions>
         </Card>
         );

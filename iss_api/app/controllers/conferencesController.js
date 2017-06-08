@@ -19,3 +19,13 @@ exports.addConference = ( req, res ) => {
         }
     } );
 };
+
+exports.getConferences = ( req, res ) => {
+    Conference.find( { }, ( error, conf ) => {
+        if ( error ) {
+            res.serverError( error );
+        } else {
+            res.success( conf );
+        }
+    } );
+};

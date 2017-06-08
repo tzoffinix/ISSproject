@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import RaisedButton from "material-ui/RaisedButton";
 import MyAppBar from "../components/AppBar";
 import TabsExampleControlled from "../components/ControllableTabs";
+import ChairTabs from "../components/ChairTabs";
 
 import Cookies from "universal-cookie";
 import axios from "axios";
@@ -29,7 +30,10 @@ export default class UserDashboard extends Component {
                     padding: "50px",
                     marginTop: "25px"
                 }}> JS Heroes 2017</h2>*/}
-                <TabsExampleControlled user={this.props.user}/>
+                { this.props.user.role !== "CHAIR/CO-CHAIR" ?
+                 <TabsExampleControlled user={this.props.user}/>  :
+                 <ChairTabs user={this.props.user}/>
+                 }
                  </div>
         );
     }

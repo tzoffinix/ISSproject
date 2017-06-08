@@ -33,9 +33,9 @@ export default class Home extends Component {
     }
     render() {
         const name = "" ||  this.state.user.name;
-        return ( <div>
+        return ( <div className="u-text-center">
                     <MyAppBar name={name} logOut={this.logOut} logged={ this.state.issUser !== undefined }/>
-                    {this.state.issUser !== undefined ? <UserDashboard user={this.state.user} getUserInfo={this.getUserInfo}/> : <div>Please log in.</div>}
+                    {this.state.issUser !== undefined ? <UserDashboard user={this.state.user} getUserInfo={this.getUserInfo}/> : <h3 className="u-margin-0">Please log in.</h3>}
                  </div>
         );
     }

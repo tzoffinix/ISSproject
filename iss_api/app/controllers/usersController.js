@@ -5,11 +5,12 @@ const jwt           = require( "jsonwebtoken" );
 const SECRET        = "superSuperSecret";
 
 exports.register = ( req, res ) => {
-    let user;
+    let user = req.user;
     if ( user ) {
         res.preconditionFailed( "existing_user" );
     } else {
         user = new User( req.body );
+        user.id = user._id;
         user.save( function( err, savedUser ) {
             if ( err ) {
                 res.validationError( err );
@@ -135,6 +136,18 @@ exports.assign = ( req, res )=> {
             user.save( ( error, savedUser )=>{
                 res.success( savedUser );
             } );
+        }
+    );
+};
+
+exports.getUsers = function( req, res ) {
+    User.find(
+        { },
+        function( err, users ) {
+            if ( err ) {
+                return res.serverError( );
+            }
+            res.success( { users } );
         }
     );
 };

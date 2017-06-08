@@ -1,7 +1,6 @@
 import React from "react";
 import { Tabs, Tab } from "material-ui/Tabs";
-import ProposalForm from "./ProposalForm";
-import ReviewForm from "./ReviewForm";
+import AssignForm from "./AssignForm";
 import BottomNavigationExampleSimple from "./ReviewForm";
 
 const styles = {
@@ -13,7 +12,7 @@ const styles = {
     }
 };
 
-export default class TabsExampleControlled extends React.Component {
+export default class ChairTabs extends React.Component {
 
     constructor( props ) {
         super( props );
@@ -34,11 +33,10 @@ export default class TabsExampleControlled extends React.Component {
         value={this.state.value}
         onChange={this.handleChange}
       >
-        <Tab disabled={this.props.user.role !== "AUTHOR"} label="Submit a proposal" value="a">
-          <ProposalForm/>
+        <Tab label="Create conference" value="a">
         </Tab>
-        <Tab disabled={this.props.user.role !== "REVIEWER" } label="Review proposals" value="b">
-            <BottomNavigationExampleSimple user={this.props.user}/>
+        <Tab label="Assign proposal" value="b">
+            <AssignForm user={this.props.user}/>
         </Tab>
       </Tabs>
         );

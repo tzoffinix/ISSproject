@@ -54,7 +54,6 @@ export default class LogIn extends Component {
             password: this.state.password
         } ).then( ( response )=>{
             const data = response.data;
-            console.log( data );
             if ( data.message === "Authentication failed. Wrong password." ) {
                 this.setState( {
                     passwordErrorText: "wrong password"

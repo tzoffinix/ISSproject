@@ -15,7 +15,11 @@ router.post( "/users/registration", setUser, usersController.register );
 
 router.post( "/users/login", usersController.login );
 
+router.get( "/users/getUsers",  usersController.getUsers );
+
 router.get( "/users/:userId",  usersController.getUser );
+
+
 
 router.put( "/users/edit", authorize, validateToken, usersController.edit );
 
@@ -34,6 +38,8 @@ router.put( "/users/:userId/bid", usersController.bid );
 router.put( "/users/:userId/assign", usersController.assign );
 
 router.post( "/conferences/create", setUser, conferenceController.addConference );
+
+router.get( "/conferences/getConferences", conferenceController.getConferences );
 
 router.get( "/test", function( req, res ) {
     res.json( { success: true } );

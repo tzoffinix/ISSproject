@@ -19,7 +19,9 @@ export default class Comments extends Component {
         };
         this.generateComments = this.generateComments.bind( this );
     }
-
+    generateComments(){
+        
+    }
     render() {
         return (
             <Card>

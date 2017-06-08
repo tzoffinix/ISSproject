@@ -7,7 +7,7 @@ const PARTICIPANT_ROLES = [ "SESSION_CHAIR", "SPEAKER", "LISTENER" ];
 const Schema   = mongoose.Schema;
 const userSchema = new Schema( {
     id: { type: String, default: shortid.generate() },
-    conferenceId: { type: String, required: true },
+    conferenceId: { type: String },
     role: { type: String, enum: CMS_ROLES },
     participantRole: { type: String, enum: PARTICIPANT_ROLES },
     username: { type: String, required: true },
