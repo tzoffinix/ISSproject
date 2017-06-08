@@ -21,7 +21,6 @@ app.set( "env", ENV );
 
 require( "./models/user" );
 require( "./models/proposal" );
-require( "./models/userType" );
 require( "./models/conference" );
 require( "./models/comment" );
 

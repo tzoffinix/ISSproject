@@ -1,7 +1,6 @@
 const mongoose      = require( "mongoose" );
 const extractObject = require( "../utilities/functions" ).extractObject;
 const User          = mongoose.model( "User" );
-const userType      = mongoose.model( "UserType" );
 const jwt           = require( "jsonwebtoken" );
 const SECRET        = "superSuperSecret";
 
