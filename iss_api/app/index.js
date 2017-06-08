@@ -23,7 +23,10 @@ require( "./models/user" );
 require( "./models/proposal" );
 require( "./models/userType" );
 require( "./models/conference" );
+require( "./models/comment" );
+
 const proposalsController = require( "./controllers/proposalsController" );
+
 app.use( customResponses );
 
 const storage = multer.diskStorage( {

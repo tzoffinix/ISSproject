@@ -1,6 +1,7 @@
 const mongoose = require( "mongoose" );
-const shortid = require( "shortid" );
+const shortid  = require( "shortid" );
 const Schema   = mongoose.Schema;
+const Comment  = mongoose.model( "Comment" );
 
 const proposalSchema = new Schema( {
     id: { type: String, default: shortid.generate() },
@@ -18,7 +19,9 @@ const proposalSchema = new Schema( {
     weakAccept: { type: Number, default: 0 },
     weakReject: { type: Number, default: 0 },
     reject: { type: Number, default: 0 },
-    strongReject: { type: Number, default: 0 }
+    strongReject: { type: Number, default: 0 },
+    borderlinePaper: { type: Number, default: 0 },
+    comments: [ { type: String } ]
 }, {
     timestamps: true
 } );

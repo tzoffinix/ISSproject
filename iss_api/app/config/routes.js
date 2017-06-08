@@ -2,6 +2,7 @@ const errorsController = require( "../controllers/errorsController" );
 const usersController  = require( "../controllers/usersController" );
 const proposalsController = require( "../controllers/proposalsController" );
 const conferenceController = require( "../controllers/conferencesController" );
+const commentsController = require( "../controllers/commentsController" );
 
 const validateToken = require( "../middlewares/validateToken" );
 const authorize     = require( "../middlewares/authorize" );
@@ -22,6 +23,10 @@ router.delete( "/users/delete", authorize, validateToken, usersController.delete
 
 router.post( "/proposals/create", setUser, proposalsController.addProposal );
 
+router.post( "/comments/create", commentsController.addComment );
+
+router.put( "/proposals/addReview", proposalsController.addReview );
+
 router.get( "/proposals/", proposalsController.getProposals );
 
 router.put( "/users/:userId/bid", usersController.bid );
@@ -33,7 +38,7 @@ router.post( "/conferences/create", setUser, conferenceController.addConference 
 router.get( "/test", function( req, res ) {
     res.json( { success: true } );
 } );
-router.get( "/files/:fileName", function ( req, res ) { return express.static( `uploads/${ res.params.fileName }` ) } );
+
 
 router.use( errorsController.notFound );
 

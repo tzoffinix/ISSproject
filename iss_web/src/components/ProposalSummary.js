@@ -15,6 +15,7 @@ export default class ProposalSummary extends Component {
     bidProposal() {
         this.props.bidProposal( this.props.id );
         this.setState( { bid: true } );
+        this.props.refresh();
     }
     render() {
         return (

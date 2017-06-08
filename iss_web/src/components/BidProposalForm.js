@@ -21,8 +21,14 @@ export default class BidProposalForm extends Component {
         this.generateProposals = this.generateProposals.bind( this );
         this.checkIfBid = this.checkIfBid.bind( this );
         this.bidProposal = this.bidProposal.bind( this );
+        this.refresh = this.refresh.bind( this );
     }
     componentWillMount() {
+        axios.get( "/proposals" ).then( ( res ) => {
+            this.setState( { proposals: res.data.payload } );
+        } );
+    }
+    refresh() {
         axios.get( "/proposals" ).then( ( res ) => {
             this.setState( { proposals: res.data.payload } );
         } );
@@ -42,6 +48,7 @@ export default class BidProposalForm extends Component {
             checkIfBid={this.checkIfBid}
             bidProposal={this.bidProposal}
             user={this.props.user}
+            refresh={this.refresh}
             />
             ) : ( <div/> );
     }

@@ -13,8 +13,8 @@ import Avatar from "material-ui/Avatar";
 const cookies = new Cookies();
 
 String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-}
+    return this.charAt( 0 ).toUpperCase() + this.slice( 1 );
+};
 const HomeIcon = ( props ) => (
   <SvgIcon {...props}>
     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />

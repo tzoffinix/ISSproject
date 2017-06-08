@@ -19,9 +19,9 @@ export default class ReviewProposalForm extends Component {
             proposals: null
         };
         this.generateProposals = this.generateProposals.bind( this );
-        this.checkIfBid = this.checkIfBid.bind( this );
-        this.bidProposal = this.bidProposal.bind( this );
+        this.checkIfReviewed = this.checkIfReviewed.bind( this );
         this.checkUserBid = this.checkUserBid.bind( this );
+        this.refresh = this.refresh.bind( this );
     }
     componentWillMount() {
         axios.get( "/proposals" ).then( ( res ) => {
@@ -40,6 +40,14 @@ export default class ReviewProposalForm extends Component {
         }
         return false;
     }
+    refresh() {
+        axios.get( "/proposals" ).then( ( res ) => {
+            this.setState( { proposals: res.data.payload.filter( ( proposal )=> {
+                return this.checkUserBid( proposal );
+            }
+                ) } );
+        } );
+    }
     generateProposals() {
         return this.state.proposals ?
             this.state.proposals.map(
@@ -50,35 +58,20 @@ export default class ReviewProposalForm extends Component {
             keywords={proposal.keywords}
             authors={proposal.authors}
             name={proposal.name}
-            user={{ name: "Daniel Irimia" }}
             abstract={proposal.abstract}
-            checkIfBid={this.checkIfBid}
-            bidProposal={this.bidProposal}
+            checkIfReviewed={this.checkIfReviewed}
             user={this.props.user}
+            refresh={this.refresh}
+            proposal={proposal}
             />
-            
+
             </div>
             ) : ( <div/> );
     }
-    checkIfBid( id ) {
-        return ( this.props.user.bidProposals.indexOf( id ) > -1 );
+    checkIfReviewed( id ) {
+        return ( this.props.user.reviewedProposals.indexOf( id ) > -1 );
     }
 
-    bidProposal( proposalId ) {
-        const id = cookies.get( "iss_userId" );
-        axios.put( `/users/${ id }/bid`,
-            {
-                proposalId
-            }
-          ).then( ( res )=>{
-              const object = this.state.proposals.filter( function( obj ) {
-                  return obj.id == proposalId;
-              } );
-              const i = this.state.proposals.indexOf( object[ 0 ] );
-              this.state.proposals[ i ].bid = true;
-              this.setState( this.state );
-          } );
-    }
     render() {
         return (
             <div>

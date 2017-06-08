@@ -12,7 +12,8 @@ const userSchema = new Schema( {
     affiliation: { type: String, required: true },
     email: { type: String, required: true },
     bidProposals: [ { type: String } ],
-    assignedProposals: [ { type: String } ]
+    assignedProposals: [ { type: String } ],
+    reviewedProposals: [ { type: String } ]
 }, {
     timestamps: true
 } );
